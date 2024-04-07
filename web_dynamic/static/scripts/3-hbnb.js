@@ -46,7 +46,7 @@ $(document).ready(function () {
         const divDesc = $('<div></div>').addClass('description').text(response.description);
 
         const art = $('<article></article>').append(divTitle).append(divInfo).append(divUser).append(divDesc);
-        $('section.places').append(art);
+        $('section.places').html(art);
       }
     }
   });

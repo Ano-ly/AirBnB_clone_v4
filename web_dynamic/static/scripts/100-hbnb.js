@@ -12,20 +12,48 @@ $(document).ready(function () {
   });
   const amenitiesList = [];
   const amenitiesNames = [];
-  $('input').change(function () {
-    if ($(this).prop('checked') || $(this).attr('checked')) {
+  $('input.a').change(function () {
+    if ($(this).prop('checked')) {
       amenitiesList.push($(this).data('id'));
       amenitiesNames.push($(this).data('name'));
       $('DIV.amenities h4').text(amenitiesNames.join(', '));
     } else {
       const ind = amenitiesList.indexOf($(this).data('id'));
       amenitiesList.splice(ind, 1);
+      $('DIV.amenities h4').text(amenitiesNames.join(', '));
+    }
+  });
+  const statesList = [];
+  const statesCityNames = [];
+  $('input.s').change(function () {
+    if ($(this).prop('checked')) {
+      statesList.push($(this).data('id'));
+      statesCityNames.push($(this).data('name'));
+      $('DIV.locations h4').text(statesCityNames.join(', '));
+    } else {
+      const ind = statesList.indexOf($(this).data('id'));
+      statesList.splice(ind, 1);
+      $('DIV.locations h4').text(statesCityNames.join(', '));
+    }
+  });
+  const citiesList = [];
+  $('input.c').change(function () {
+    if ($(this).prop('checked')) {
+      citiesList.push($(this).data('id'));
+      statesCityNames.push($(this).data('name'));
+      $('DIV.locations h4').text(statesCityNames.join(', '));
+    } else {
+      const ind = citiesList.indexOf($(this).data('id'));
+      const indName = statesCityList.indexOf($(this).data('name'));
+      citiesList = citiesList.splice(ind, 1);
+      statesCityNames = statesCityNames.splice(indName, 1);
+      $('DIV.locations h4').text(statesCityNames.join(', ') + citiesList.join('// '));
     }
   });
   $('button').click(function () {
     $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/places_search/',
-      data: JSON.stringify({ amenities: amenitiesList }),
+      data: JSON.stringify({ amenities: amenitiesList, cities: citiesList, states: statesList }),
       type: 'POST',
       contentType: 'application/json',
       success: function (responses) {
